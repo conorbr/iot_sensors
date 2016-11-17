@@ -9,428 +9,431 @@
 
     <!-- imports -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-   	<script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
-	  <script src="http://dweet.io/client/dweet.io.min.js"></script>
+    <script src="http://dweet.io/client/dweet.io.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/theme.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
 </head>
-  <body>
-      <!-- navbar -->
-      <div class="navbar navbar-default navbar-fixed-top margin-bottom-10" role="navigation">
+
+<body>
+    <!-- navbar -->
+    <div class="navbar navbar-default navbar-fixed-top margin-bottom-10" role="navigation">
         <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand">dweet graphs</a>
-          </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="index.html">live feed</a></li>
-              <li><a href="index.html">stored data</a></li>
-            </ul>
-          </div>
+                <a class="navbar-brand">dweet graphs</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">live feed</a></li>
+                    <li><a href="localData.html">stored data</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <div class="container margin-top-100">
-      <div id="containerLight" class="col-lg-12"></div>
-      <div id="containerNoise" class="col-lg-12"></div>
-      <div id="containerUltrasonic" class="col-md-6"></div>
+        <div id="containerLight" class="col-lg-12"></div>
+        <div id="containerNoise" class="col-lg-12"></div>
+        <div id="containerUltrasonic" class="col-md-6"></div>
 
 
-          <div class="col-md-6">
-          <!-- Below loads other Dweet data such as Information -->
+        <div class="col-md-6">
+            <!-- Below loads other Dweet data such as Information -->
             <p id="dweetName">Waiting to retrive Dweet name...</p>
             <p id="latestInfo">Waiting for latest data retrived from Dweet...</p>
             <p id="latestCreated"></p>
             <p id="dweet1">waiting on first dweet</p>
             <p id="dweet2">waiting on second dweet</p>
             <p id="dweet3">waiting on third dweet</p>
-          </div>
-      </div>
+        </div>
     </div>
-
-
-
-
-
-      <footer>conor breen</footer>
-  </body>
+    </div>
+    <footer>conor breen</footer>
+</body>
 <script>
- // variables
- var lightData = []
- var noiseData = []
- var ultrasonicData = []
- var diskInformationData = []
- var dweetCreatedData = []
-// //An array to load local stored data into
- var localDataCreationDate = []
- var localDataLight = []
- var localDataNoise = []
- var localDataUltrasonic = []
- var dweetCreatedOn
+    // variables
+    var lightData = []
+    var noiseData = []
+    var ultrasonicData = []
+    var diskInformationData = []
+    var dweetCreatedData = []
+        // //An array to load local stored data into
+    var localDataCreationDate = []
+    var localDataLight = []
+    var localDataNoise = []
+    var localDataUltrasonic = []
+    var dweetCreatedOn
 
 
-$(document).ready(function(){
+    $(document).ready(function() {
 
-//thing name
-var name = 'ioting-like-a-boss'
+    //thing name
+    var name = 'ioting-like-a-boss'
 
-//series data
-var lightSeries = []
-var noiseSeries = []
-var ultrasonicSeries = []
+    //series data
+    var lightSeries = []
+    var noiseSeries = []
+    var ultrasonicSeries = []
 
 
-/////////////////////////////////////////////////////////////FIRST chart////////////////////////////////////////////////////////////
-var chart = {
- type: 'areaspline',
-animation: Highcharts.svg, // don't animate in IE < IE 10.
- marginRight: 10,
-};
-var title = {
- text: 'light level'
-};
-var xAxis = {
- type: 'datetime',
- tickPixelInterval: 150,
-labels: {enabled:false}
-};
-var yAxis = {
- title: {
-    text: 'light level'
- },
- plotLines: [{
-    value: 0,
-    width: 1,
-    color: '#808080'
- }]
-};
+    /////////////////////////////////////////////////////////////FIRST chart////////////////////////////////////////////////////////////
+    var chart = {
+        type: 'areaspline',
+        animation: Highcharts.svg, // don't animate in IE < IE 10.
+        marginRight: 10,
+    };
+    var title = {
+        text: 'light level'
+    };
+    var xAxis = {
+        type: 'datetime',
+        tickPixelInterval: 150,
+        labels: {
+            enabled: false
+        }
+    };
+    var yAxis = {
+        title: {
+            text: 'light level'
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    };
 
-//this creates the box that appears on hovering over data points in the chart
-var tooltip = {
- formatter: function () {
- return '<b>' +
-    "light was "  + Highcharts.numberFormat(this.y, 2)  + "°C"
-     + "  on " + this.x;
- }
-};
+    //this creates the box that appears on hovering over data points in the chart
+    var tooltip = {
+        formatter: function() {
+            return '<b>' +
+                "light was " + Highcharts.numberFormat(this.y, 2) + "°C" +
+                "  on " + this.x;
+        }
+    };
 
-//this controls the data points on the chart
-var plotOptions = {
- area: {
-    pointStart: 1940,
-    marker: {
-       enabled: false,
-       symbol: 'circle',
-       radius: 2,
-       states: {
-          hover: {
-            enabled: true
-          }
-       }
+    //this controls the data points on the chart
+    var plotOptions = {
+        area: {
+            pointStart: 1940,
+            marker: {
+                enabled: false,
+                symbol: 'circle',
+                radius: 2,
+                states: {
+                    hover: {
+                        enabled: true
+                    }
+                }
+            }
+        }
+    };
+
+    //this would allow for a chart legend to be displayed
+    var legend = {
+        enabled: false
+    };
+
+    //this would allow users to export the data with further implimentation
+    var exporting = {
+        enabled: false
+    };
+
+    // end chart
+
+    /////////////////////////////////////////////////////////////second chart////////////////////////////////////////////////////////////
+    var setupSecondChart = function() {
+        //this creates our chart with different settings
+        var chart2 = {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in IE < IE 10.
+            marginRight: 10,
+        };
+        var title = {
+            text: 'Relative Humidity'
+        };
+        var xAxis = {
+            type: 'datetime',
+            tickPixelInterval: 150
+        };
+        var yAxis = {
+            title: {
+                text: 'Humidity %'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        };
+
+        //this creates the box that appears on hovering over data points in the chart
+        var tooltip = {
+            formatter: function() {
+                return '<b>' +
+                    "Humidity was " + Highcharts.numberFormat(this.y, 2) + "%" +
+                    "  on " + this.x;
+            }
+        };
+
+        //this controls the data points on the chart
+        var plotOptions = {
+            area: {
+                pointStart: 1940,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        };
+
+        //this would allow for a chart legend to be displayed
+        var legend = {
+            enabled: false
+        };
+
+        //this would allow users to export the data with further implimentation
+        var exporting = {
+            enabled: false
+        };
+
+        //This stores the humidity over time data series in an array
+        noiseSeries = [{
+            name: 'Humidity Data',
+            data: noiseData,
+            color: '#FF0000',
+            dashStyle: 'longdash'
+        }]
+
+        var json = {};
+        json.chart = chart2;
+        json.title = title;
+        json.tooltip = tooltip;
+        json.xAxis = xAxis;
+        json.yAxis = yAxis;
+        json.legend = legend;
+        json.exporting = exporting;
+        json.series = noiseSeries;
+        json.plotOptions = plotOptions;
+
+        //Update our div container to hold the Humidity chart
+        $('#containerNoise').highcharts(json);
+
+        chart = $('#containerNoise').highcharts()
+            //Update the xAxis to display Dweet Creation value
+        chart.xAxis[0].update({
+            categories: dweetCreatedData
+        }, true);
+
     }
- }
-};
 
-//this would allow for a chart legend to be displayed
-var legend = {
- enabled: false
-};
 
-//this would allow users to export the data with further implimentation
-var exporting = {
- enabled: false
-};
 
-// end chart
+    /////////////////////////////////////////////////////////////third chart////////////////////////////////////////////////////////////
+    var setupThirdChart = function() {
+        //this creates our chart with different settings
+        var chart3 = {
+            animation: Highcharts.svg, // don't animate in IE < IE 10.
+            marginRight: 10,
+        };
+        var title = {
+            text: 'ultrasonic range'
+        };
+        var xAxis = {
+            type: 'datetime',
+            tickPixelInterval: 150
+        };
+        var yAxis = {
+            title: {
+                text: 'distance'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        };
 
-/////////////////////////////////////////////////////////////second chart////////////////////////////////////////////////////////////
-var setupSecondChart = function() {
- //this creates our chart with different settings
-var chart2 = {
-   type: 'spline',
- animation: Highcharts.svg, // don't animate in IE < IE 10.
-   marginRight: 10,
-};
-var title = {
-   text: 'Relative Humidity'
-};
-var xAxis = {
-   type: 'datetime',
-   tickPixelInterval: 150
-};
-var yAxis = {
-   title: {
-      text: 'Humidity %'
-   },
-   plotLines: [{
-      value: 0,
-      width: 1,
-      color: '#808080'
-   }]
-};
-
- //this creates the box that appears on hovering over data points in the chart
-var tooltip = {
-   formatter: function () {
-   return '<b>' +
-      "Humidity was "  + Highcharts.numberFormat(this.y, 2)  + "%"
-       + "  on " + this.x;
-   }
-};
-
- //this controls the data points on the chart
-var plotOptions = {
-   area: {
-      pointStart: 1940,
-      marker: {
-         enabled: false,
-         symbol: 'circle',
-         radius: 2,
-         states: {
-            hover: {
-              enabled: true
+        //this creates the box that appears on hovering over data points in the chart
+        var tooltip = {
+            formatter: function() {
+                return '<b>' +
+                    "ultrasonic range was was " + Highcharts.numberFormat(this.y, 2) + "cm" +
+                    "  on " + this.x;
             }
-         }
-      }
-   }
-};
+        };
 
-     //this would allow for a chart legend to be displayed
-var legend = {
-   enabled: false
-};
-
- //this would allow users to export the data with further implimentation
-var exporting = {
-   enabled: false
-};
-
-    //This stores the humidity over time data series in an array
-     noiseSeries= [{
-     name: 'Humidity Data',
-     data: noiseData, color: '#FF0000',
-     dashStyle: 'longdash'
-     }]
-
-     var json = {};
-     json.chart = chart2;
-     json.title = title;
-     json.tooltip = tooltip;
-     json.xAxis = xAxis;
-     json.yAxis = yAxis;
-     json.legend = legend;
-     json.exporting = exporting;
-     json.series = noiseSeries;
-     json.plotOptions = plotOptions;
-
-    //Update our div container to hold the Humidity chart
-    $('#containerNoise').highcharts(json);
-
-    chart = $('#containerNoise').highcharts()
-     //Update the xAxis to display Dweet Creation value
- chart.xAxis[0].update({categories: dweetCreatedData}, true);
-
-}
-
-
-
-/////////////////////////////////////////////////////////////third chart////////////////////////////////////////////////////////////
-var setupThirdChart = function() {
- //this creates our chart with different settings
-var chart3 = {
- animation: Highcharts.svg, // don't animate in IE < IE 10.
-   marginRight: 10,
-};
-var title = {
-   text: 'ultrasonic range'
-};
-var xAxis = {
-   type: 'datetime',
-   tickPixelInterval: 150
-};
-var yAxis = {
-   title: {
-      text: 'distance'
-   },
-   plotLines: [{
-      value: 0,
-      width: 1,
-      color: '#808080'
-   }]
-};
-
- //this creates the box that appears on hovering over data points in the chart
-var tooltip = {
-   formatter: function () {
-   return '<b>' +
-      "ultrasonic range was was "  + Highcharts.numberFormat(this.y, 2)  + "cm"
-       + "  on " + this.x;
-   }
-};
-
- //this controls the data points on the chart
-var plotOptions = {
-   area: {
-      pointStart: 1940,
-      marker: {
-         enabled: false,
-         symbol: 'circle',
-         radius: 2,
-         states: {
-            hover: {
-              enabled: true
+        //this controls the data points on the chart
+        var plotOptions = {
+            area: {
+                pointStart: 1940,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
             }
-         }
-      }
-   }
-};
+        };
 
-     //this would allow for a chart legend to be displayed
-var legend = {
-   enabled: false
-};
+        //this would allow for a chart legend to be displayed
+        var legend = {
+            enabled: false
+        };
 
- //this would allow users to export the data with further implimentation
-var exporting = {
-   enabled: false
-};
+        //this would allow users to export the data with further implimentation
+        var exporting = {
+            enabled: false
+        };
 
-    //This stores the humidity over time data series in an array
-     ultrasonicSeries= [{
-     name: 'ultrasonic Data',
-     data: ultrasonicData, color: '#FF0000',
-     dashStyle: 'longdash'
-     }]
+        //This stores the humidity over time data series in an array
+        ultrasonicSeries = [{
+            name: 'ultrasonic Data',
+            data: ultrasonicData,
+            color: '#FF0000',
+            dashStyle: 'longdash'
+        }]
 
-     var ultra = {};
-     ultra.chart = chart3;
-     ultra.title = title;
-     ultra.tooltip = tooltip;
-     ultra.xAxis = xAxis;
-     ultra.yAxis = yAxis;
-     ultra.legend = legend;
-     ultra.exporting = exporting;
-     ultra.series = ultrasonicSeries;
-     ultra.plotOptions = plotOptions;
+        var ultra = {};
+        ultra.chart = chart3;
+        ultra.title = title;
+        ultra.tooltip = tooltip;
+        ultra.xAxis = xAxis;
+        ultra.yAxis = yAxis;
+        ultra.legend = legend;
+        ultra.exporting = exporting;
+        ultra.series = ultrasonicSeries;
+        ultra.plotOptions = plotOptions;
 
-    //Update our div container to hold the Humidity chart
-    $('#containerUltrasonic').highcharts(ultra);
+        //Update our div container to hold the Humidity chart
+        $('#containerUltrasonic').highcharts(ultra);
 
-    chart = $('#containerUltrasonic').highcharts()
-     //Update the xAxis to display Dweet Creation value
- chart.xAxis[0].update({categories: dweetCreatedData}, true);
+        chart = $('#containerUltrasonic').highcharts()
+            //Update the xAxis to display Dweet Creation value
+        chart.xAxis[0].update({
+            categories: dweetCreatedData
+        }, true);
 
-}
-
-
-// get dweets
-// dweetio.get_all_dweets_for(name, function(err, dweets){
-//
-//  for(theDweet in dweets.reverse())
-//  {
-//      var dweet = dweets[theDweet];
-//
-//        valInfo = dweet.content["Dweet Info"]
-//        val1 = dweet.content["light_level"]
-//        val2 = dweet.content["noise_level"]
-//        val3 = dweet.content["ultrasonic_value"]
-//        val4 = dweet.content["Disk Percentage Used"]
-//
-//        //this gets the dweet name value stored under thing in the dweet
-//        dweetName = dweet.thing
-//        $('#dweetName').text("Reading data from "+dweetName+" Dweet!");
-//
-//        //This adds dweet info value to text
-//        $('#latestInfo').text(valInfo);
-//
-//        //Gathers dweet creation date & time data
-//        dweetCreatedOn = dweet.created
-//        $('#latestCreated').text("Last dweet created at "+dweetCreatedOn);
-//
-//        $('#dweet1').text("light level = "+val1);
-//        $('#dweet2').text("noise level = "+val2);
-//        $('#dweet3').text("ultrasonic value = "+val3);
-//        //dweetCreatedData.push(dweet.created)
-//
-//
-//        //This parses the string value retrieved and pushes to array
-//        dweetCreatedData.push(dweetCreatedOn)
-//        lightData.push(val1)
-//        noiseData.push(val2)
-//        ultrasonicData.push(val3)
-//
-//        //this gathers only the last dweet - I'm using just for one chart that needs only 1 data input
-//        //diskInformationData.push(val4)
-//        diskInformationData = [val4]
-//
-//  }
-   //Logs the value into the browsers console - good for debugging
-//console.log(diskInformationData)
-
-   //######## ------------------------------------------------------------------------------ ########
+    }
 
 
-   var loadLocalChartData = function() {
+    // get dweets
+    // dweetio.get_all_dweets_for(name, function(err, dweets){
+    //
+    //  for(theDweet in dweets.reverse())
+    //  {
+    //      var dweet = dweets[theDweet];
+    //
+    //        valInfo = dweet.content["Dweet Info"]
+    //        val1 = dweet.content["light_level"]
+    //        val2 = dweet.content["noise_level"]
+    //        val3 = dweet.content["ultrasonic_value"]
+    //        val4 = dweet.content["Disk Percentage Used"]
+    //
+    //        //this gets the dweet name value stored under thing in the dweet
+    //        dweetName = dweet.thing
+    //        $('#dweetName').text("Reading data from "+dweetName+" Dweet!");
+    //
+    //        //This adds dweet info value to text
+    //        $('#latestInfo').text(valInfo);
+    //
+    //        //Gathers dweet creation date & time data
+    //        dweetCreatedOn = dweet.created
+    //        $('#latestCreated').text("Last dweet created at "+dweetCreatedOn);
+    //
+    //        $('#dweet1').text("light level = "+val1);
+    //        $('#dweet2').text("noise level = "+val2);
+    //        $('#dweet3').text("ultrasonic value = "+val3);
+    //        //dweetCreatedData.push(dweet.created)
+    //
+    //
+    //        //This parses the string value retrieved and pushes to array
+    //        dweetCreatedData.push(dweetCreatedOn)
+    //        lightData.push(val1)
+    //        noiseData.push(val2)
+    //        ultrasonicData.push(val3)
+    //
+    //        //this gathers only the last dweet - I'm using just for one chart that needs only 1 data input
+    //        //diskInformationData.push(val4)
+    //        diskInformationData = [val4]
+    //
+    //  }
+    //Logs the value into the browsers console - good for debugging
+    //console.log(diskInformationData)
 
-            //Retrieve locally stored data
-            lightData = JSON.parse(localStorage.getItem("light_level"));
-
-            dweetCreatedData =  JSON.parse(localStorage.getItem("Dweet Created On"));
-
-            noiseData = JSON.parse(localStorage.getItem("noise_level"));
-
-            ultrasonicData = JSON.parse(localStorage.getItem("Air Pressure"));
-
-            diskInformationData = JSON.parse(localStorage.getItem("Disk Information"));
+    //######## ------------------------------------------------------------------------------ ########
 
 
-            //Convert string dates back into real dates
-            //http://weblog.west-wind.com/posts/2014/Jan/06/JavaScript-JSON-Date-Parsing-and-real-Dates
-            dweetCreatedOn =  new Date(JSON.parse(localStorage.getItem("Last Dweet Stored Date")));
+    var loadLocalChartData = function() {
 
-            dweetCreatedOnString = localStorage.getItem("Last Dweet Stored Date")
+        //Retrieve locally stored data
+        lightData = JSON.parse(localStorage.getItem("light_level"));
 
-            //This checks if the substring "1970" is within our dweetCreatedOnString
-            //returns the position of the string in the other string. If not found, it will return -1
-            //console.log(dweetCreatedOnString.indexOf("1970") > -1);
+        dweetCreatedData = JSON.parse(localStorage.getItem("Dweet Created On"));
 
-            //Make a check to see if any local data exists
-            console.log(dweetCreatedOn)
+        noiseData = JSON.parse(localStorage.getItem("noise_level"));
 
-            if (dweetCreatedOnString != null){
+        ultrasonicData = JSON.parse(localStorage.getItem("Air Pressure"));
 
-                $('#latestCreated').text("Last Dweet data stored on "+dweetCreatedOn);
-            }
-            else{
-                $('#latestCreated').text("No local Dweet data stored yet. Please return to the Live Data Feed page and await new data to arrive first.");
-            }
+        diskInformationData = JSON.parse(localStorage.getItem("Disk Information"));
+
+
+        //Convert string dates back into real dates
+        //http://weblog.west-wind.com/posts/2014/Jan/06/JavaScript-JSON-Date-Parsing-and-real-Dates
+        dweetCreatedOn = new Date(JSON.parse(localStorage.getItem("Last Dweet Stored Date")));
+
+        dweetCreatedOnString = localStorage.getItem("Last Dweet Stored Date")
+
+        //This checks if the substring "1970" is within our dweetCreatedOnString
+        //returns the position of the string in the other string. If not found, it will return -1
+        //console.log(dweetCreatedOnString.indexOf("1970") > -1);
+
+        //Make a check to see if any local data exists
+        console.log(dweetCreatedOn)
+
+        if (dweetCreatedOnString != null) {
+
+            $('#latestCreated').text("Last Dweet data stored on " + dweetCreatedOn);
+        } else {
+            $('#latestCreated').text("No local Dweet data stored yet. Please return to the Live Data Feed page and await new data to arrive first.");
+        }
 
 
 
         //This stores the dweet creation data over time in an array
-    dweetCreatedSeries= [{
-        name: 'Dweet Creation Date',
-        data: dweetCreatedData
-     }]
+        dweetCreatedSeries = [{
+            name: 'Dweet Creation Date',
+            data: dweetCreatedData
+        }]
 
 
         //This stores the temperature over time data series in an array
         //Using zones to display a different line colour depending on tempurature based on acceptable room tempurature guidelines
         //https://en.wikipedia.org/wiki/Room_temperature
-    lightSeries= [{
-        name: 'Temperature Data',
-        data: LightData,
-          zones: [{
+        lightSeries = [{
+            name: 'Temperature Data',
+            data: LightData,
+            zones: [{
                 value: 18,
                 color: '#7cb5ec'
             }, {
@@ -441,48 +444,49 @@ var exporting = {
             }]
 
 
-     }]
+        }]
 
-       // console.log("Temperature Series array contains " + JSON.stringify(temperatureSeries) + " currently.")
+        // console.log("Temperature Series array contains " + JSON.stringify(temperatureSeries) + " currently.")
 
         //Various data loaded into temperature chart variable
-     var lightChart = {};
-     lightChart.chart = chart;
-     lightChart.title = title;
-     lightChart.tooltip = tooltip;
-     lightChart.xAxis = xAxis;
-     lightChart.yAxis = yAxis;
-     lightChart.legend = legend;
-     lightChart.exporting = exporting;
-     lightChart.series = temperatureSeries;
-     lightChart.plotOptions = plotOptions;
+        var lightChart = {};
+        lightChart.chart = chart;
+        lightChart.title = title;
+        lightChart.tooltip = tooltip;
+        lightChart.xAxis = xAxis;
+        lightChart.yAxis = yAxis;
+        lightChart.legend = legend;
+        lightChart.exporting = exporting;
+        lightChart.series = temperatureSeries;
+        lightChart.plotOptions = plotOptions;
 
 
         //######## ------------------------------------------------------------------------------ ########
 
         //Set some additional chart options - not currently in use
-     Highcharts.setOptions({
-        global: {
-           useUTC: false
-        }
-     });
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
 
         //Update our div container to hold the temperature chart
         $('#containerLight').highcharts(lightChart);
-    chart = $('#containerLight').highcharts()
-        //Update the xAxis to display Dweet Creation value
-    chart.xAxis[0].update({categories: dweetCreatedData}, true);
+        chart = $('#containerLight').highcharts()
+            //Update the xAxis to display Dweet Creation value
+        chart.xAxis[0].update({
+            categories: dweetCreatedData
+        }, true);
 
 
         setupSecondChart()
-   }
+    }
 
     loadLocalChartData()
 
-   });
+    });
 
-});
-
-
+    });
 </script>
+
 </html>
