@@ -1,0 +1,40 @@
+/*!
+ * Start Bootstrap - 2 Col Portfolio HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+ @import "//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css";
+
+  html {
+    position: relative;
+    min-height: 100%;
+ }
+  body {
+    margin: 0 0 60px;
+ }
+ footer {
+    /* just for demo */
+   background-color: #F8F8F8;
+   border-top: 1px solid #E7E7E7;
+   text-align:right;
+   padding:20px;
+   /* just for demo */
+
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   height: 60px;
+   width: 100%;
+}
+  .margin-bottom-10{
+    margin-bottom: 10px;
+  }
+  .margin-top-100 {
+    margin-top: 100px;
+  }
+  .chart{
+    min-width: 310px;
+    height: 400px;
+    margin: 0 auto;
+  }
